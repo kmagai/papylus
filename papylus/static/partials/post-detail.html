@@ -1,0 +1,46 @@
+<link rel="stylesheet" href="/static/css/main.css">
+  <form role='form' name='editListForm' action='' ng-submit='reviseList()' novalidate>
+    <div class='col-md-12'>
+      <div class='form-group col-md-5' ng-class="{'has-error': editListForm.title.$invalid && !editListForm.title.$pristine, 'has-success': !editListForm.title.$invalid }">
+        <label for='title'>リストのタイトル</label>
+        <input id='title' class="form-control" name='title' type='text' ng-model='list.title' required>
+        <p ng-show="editListForm.title.$invalid && !editListForm.title.$pristine" class="help-block">タイトルは必須項目です</p>
+      </div>
+    </div>
+    <div class='col-md-12'>
+      <div class='form-group col-md-5' ng-class="{'has-success': !editListForm.body.$invalid && !editListForm.title.$pristine }">
+        <label for='body'>リストの概要（任意）</label>
+        <textarea id='body' class="form-control" name='body' type='text' ng-model='list.body'>
+        </textarea>
+      </div>
+    </div>
+    <div class='col-md-12'>
+      <div class='col-md-3'>
+        <!-- Trigger Modal -->
+        <button type='button' class="btn btn-default btn-lg" ng-click='searchItemModal()'>アイテムを検索</button>
+      </div>
+    </div>
+    <div class='col-md-12'>
+      <div class='col-md-3'>
+        <button type='button' class="btn btn-warning" ng-click='cancel()'>キャンセル</button>
+        <button type='submit' class="btn btn-default" ng-disabled='editListForm.$invalid'>リストを編集</button>
+      </div>
+    </div>
+  </form>
+
+<!-- Modal Content -->
+<script type='text/ng-template' id='searchItemModal.html'>
+  <form role='form' name='searchItemForm' action='' ng-submit='searchAmazon()' novalidate>
+    <div class="modal-header">
+      <h4><span class='glyphicon glyphicon-th-list'></span> 追加するアイテムを検索</h4>
+    </div>
+    <div class="modal-body">
+        <div class='form-group' ng-class="{'has-error': searchItemForm.query.$invalid && !searchItemForm.query.$pristine, 'has-success': !searchItemForm.query.$invalid }">
+          <label for='query'>アイテム名</label>
+          <input id='query' class="form-control" name='query' type='text' ng-model='data.query' required>
+          <button type='submit' class="btn btn-default" ng-disabled='searchItemForm.$invalid'>検索</button>
+          <p ng-show="searchItemForm.query.$invalid && !searchItemForm.query.$pristine" class="help-block">アイテム名を入力してください</p>
+        </div>
+    </div>
+  </form>
+</script>

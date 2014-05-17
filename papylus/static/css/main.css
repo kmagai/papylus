@@ -1,0 +1,49 @@
+.main {
+  padding-top: 20px;
+  min-height: 370px;
+}
+
+.modal-header {
+  background-color: #ecf0f1;
+}
+
+
+.box {
+  background: #f9f9f9;
+  box-shadow: 0 0 1px rgba(0,0,0,.2), 0 2px 4px rgba(0,0,0,.1);
+  border-radius: 5px;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 1px rgba(0,0,0,.1);
+  h2 {
+    color: $primary;
+    font-size: (14/16) + em;
+  }
+  p {
+    font-size: (12/16) + em;
+    color: #7d7d7d;
+  }
+}
+
+.profile {
+  padding: 30px;  
+  text-align: center;
+}
+
+.profile .pic {
+  border-radius: 50%;
+}
+
+.profile .pic img {
+  border-radius: 50%;
+  width: 100%;
+}
+
+.profile .details {
+  margin-top: 30px;
+}
+
+.profile .btn {
+  margin-top: 30px;
+}
+
+/* Rewritting bootstrap, change it by Sass later */

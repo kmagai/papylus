@@ -1,0 +1,28 @@
+body {
+  background-color: #ebebeb;
+}
+
+a {
+  color: #004B6B;
+}
+
+.navbar-header {
+}
+
+.navbar-brand {
+  background-color: rgba(52, 73, 94,1.0);
+}
+
+.container-fluid {
+  background-color: rgba(52, 73, 94,1.0);
+}
+
+.container-fluid a {
+  color: #ecf0f1;
+}
+
+/* Bootstrap */
+.navbar {
+  margin-bottom: 0px;
+  border: 0px;
+}
