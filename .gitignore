@@ -1,5 +1,9 @@
 *.pyc
-venv
+*.swp
+*.pyc
 *~
 .DS_Store
+venv
 ignore
+config.py
+setting.py
