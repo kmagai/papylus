@@ -8,21 +8,6 @@
 }
 
 
-.box {
-  background: #f9f9f9;
-  box-shadow: 0 0 1px rgba(0,0,0,.2), 0 2px 4px rgba(0,0,0,.1);
-  border-radius: 5px;
-  margin-bottom: 20px;
-  text-shadow: 1px 1px 1px rgba(0,0,0,.1);
-  h2 {
-    color: $primary;
-    font-size: (14/16) + em;
-  }
-  p {
-    font-size: (12/16) + em;
-    color: #7d7d7d;
-  }
-}
 
 .profile {
   padding: 30px;  
@@ -46,4 +31,22 @@
   margin-top: 30px;
 }
 
-/* Rewritting bootstrap, change it by Sass later */
+.items {
+  list-style-type: none;
+}
+
+.items li {
+  margin-right: 15px;
+  float: left;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li h3 {
+  color: white;
+  font-size: 1em;
+  font-weight: 800;
+  margin-bottom: .4em;
+}

@@ -1,28 +1,46 @@
 'use strict';
 
-angular.module('Papylus', ['papylusServices', 'ngRoute', 'ui.bootstrap'])
-  .config(['$routeProvider', '$locationProvider',
-    function($routeProvider, $locationProvider) {
-    $routeProvider
-    .when('/list', {
-      templateUrl: 'static/partials/post-list.html',
-      controller: ListsCtrl
+var app = angular.module('Papylus', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ngCookies'])
+.config(function($routeProvider, $locationProvider) {
+  $routeProvider
+    .when('/', {
+      templateUrl: '/static/partials/landing.html',
+      controller: 'LandingCtrl',
+      access: {
+        level: 'public'
+      }
     })
-    .when('/list/:id', {
-      templateUrl: '/static/partials/post-detail.html',
-      controller: ListDetailCtrl
+    .when('/login/tw', {
+      redirectTo: '/login/tw',
+      access: {
+        level: 'public'
+      }
     })
-    .when('/user', {
-      templateUrl: 'static/partials/post-list.html',
-      controller: ListsCtrl
+    .when('/list/:userId/:listId', {
+      templateUrl: '/static/partials/list.html',
+      controller: 'ListCtrl',
+      access: {
+        level: 'public'
+      }
     })
-    .when('/add', {
+    .when('/edit/:userId/:listId', {
+      templateUrl: '/static/partials/list-edit.html',
+      controller: 'ListEditCtrl',
+      access: {
+        level: 'user'
+      }
+    })
+    .when('/user/:userId', {
+      templateUrl: 'static/partials/user.html',
+      controller: 'UserCtrl',
+      access: {
+        level: 'user'
+      }
     })
     .otherwise({
       redirectTo: '/'
-    })
-    ;
+    });
 
-    $locationProvider.html5Mode(true);
-  }])
+  $locationProvider.html5Mode(true);
+})
 

@@ -26,3 +26,35 @@ a {
   margin-bottom: 0px;
   border: 0px;
 }
+
+hr {
+  border-top: 1px dashed #bbb;
+}
+
+.footer {
+  background-image: url("/static/img/Blurred Backgrounds/starfruit.jpg");
+  padding: 2em 1.618em;
+  width: 100%;
+  height: 150px;
+  margin-top: 130px;
+}
+
+.footer .footer-logo {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.footer .footer-logo span.glyphicon {
+  font-size: 3.2em;
+}
+
+.footer .footer-links {
+  margin-left: 25.58941%;
+}
+
+.footer ul {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+}
+

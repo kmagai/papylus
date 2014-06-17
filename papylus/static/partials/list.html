@@ -1,0 +1,35 @@
+<link rel="stylesheet" href="/static/css/main.css">
+<div class="container page">
+	<div id="content" class="container main">
+    <div class='row'>
+      <div class='col-md-12'>
+          <h1>{{list.title}}</h1>
+          <p style='white-space: pre;'>{{list.body}}</p>
+      </div>
+      <div class='col-md-12'>
+        <div ng-repeat="item in list.items">
+          <div>
+            <div class='col-md-12 animated fadeInRight'>
+              <div class='col-md-4'>
+                <a ng-href='{{item.url}}?tag={{list.user.associates_id}}' target='_blank'><p>{{item.name}}</p></a>
+                <a ng-href='{{item.url}}?tag={{list.user.associates_id}}' target='_blank' ng-show='{{item.img.length}}'><img src='{{item.img}}'></a>
+                <a ng-href='{{item.url}}?tag={{user.associates_id}}' target='_blank' ng-hide='{{item.img.length}}'>No Image Found</a>
+              </div>
+              <div class='col-md-4'>
+                <p ng-show='item.body.length'>コメント</p>
+                <p style='white-space: pre;'>{{item.body}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer class="footer">
+  <div class="footer-logo">
+    <span class='glyphicon glyphicon-file'></span>
+  </div>
+  <div class="footer-links">
+  </div>
+</footer>
