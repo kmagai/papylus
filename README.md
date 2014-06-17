@@ -1,3 +1,3 @@
 # Papyl.us
 
-Made of AngularJS and Flask
+Amazon List App, Made of AngularJS and Flask
