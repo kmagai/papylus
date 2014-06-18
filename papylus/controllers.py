@@ -84,7 +84,7 @@ def login(provider_name):
                 credentials = result.user.credentials
                 user = User.query.filter_by(tw_oauth_token=credentials.token).first()
 
-                if user == None or user.tw_oauth_secret != credentials.token_secret:
+                if user == None:
                     url = 'https://api.twitter.com/1.1/users/show/' + username + '.json'
                     response = result.provider.access(url)
                     icon_img = response.data['profile_image_url_https'].replace('normal', 'bigger')
@@ -102,7 +102,7 @@ def login(provider_name):
             if result.provider.name == 'fb':
                 credentials = result.user.credentials
                 user = User.query.filter_by(fb_oauth_token=credentials.token).first()
-                if user == None or user.tw_oauth_secret != credentials.token_secret:
+                if user == None:
                     user = User()
                     user.fb_id = result.user.id
                     user.name = result.user.name
