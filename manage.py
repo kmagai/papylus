@@ -6,11 +6,6 @@ import requests
 from papylus.core import db
 from papylus.models import List
 
-def create_sample_db_entry(api_endpoint, payload):
-	url = 'http://localhost:8000/' + api_endpoint
-	r = requests.post(url, data=json.dumps(payload), headers={'Content-Type': 'application/json'})
-	print r.text
-	
 def create_db():
 	db.create_all()
 
@@ -31,18 +26,7 @@ def main():
 		drop_db()
 
 		print "DB deleted!"
-	elif args.command == 'seed_db' and args.seedfile:
-		with open(args.seedfile, 'r') as f:
-			seed_data = json.loads(f.read())
-		
-		for item_class in seed_data:
-			items = seed_data[item_class]
-			print items
-			for item in items:
-				print item
-				create_sample_db_entry('api/' + item_class, item)
 
-		print "\nSample data added to database!"
 	else:
 		raise Exception('Invalid command')
 
