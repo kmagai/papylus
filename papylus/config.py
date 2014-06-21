@@ -1,7 +1,7 @@
 import os
 
 CSRF_ENABLED = True
-SECRET_KEY = 'hogehoge3200fugajsafsjafsajkfsfjksz'
+SECRET_KEY = 'jsadasdsasafsjafsajkfsfjksz'
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -30,4 +30,7 @@ CONFIG = {
         'scope': ['user_about_me', 'email', 'publish_stream'],
     }
 }
-
+AWS = {
+        'ACCESS_KEY': 'AKIAIMAW3FVHF2C4LAXA',
+        'SECRET_KEY': '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',
+    }

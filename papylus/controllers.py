@@ -10,7 +10,7 @@ from authomatic import Authomatic
 # routing for API endpoints (generated from the models designated as API_MODELS)
 from papylus.core import api_manager
 from papylus.models import List, Item, User, db
-from config import CONFIG
+from config import CONFIG, AWS
 from functools import wraps
 import json
 
@@ -31,7 +31,7 @@ def search_item():
     category = request.args.get('c')
     ## replace confidencial to secret file and put it in gitignore
     from amazon.api import AmazonAPI
-    amazon = AmazonAPI('AKIAITMCHY2NAIZNCQGA','rXqFN4ytnf9//0ILqsdCMqlYi24xLdnSI+Py95xP','papylus-22', region="JP")
+    amazon = AmazonAPI(AWS.ACCESS_KEY, AWS.SECRET_KEY, 'papylus-22', region="JP")
 
     if not category:
         category = 'All'
