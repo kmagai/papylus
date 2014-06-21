@@ -3,5 +3,5 @@
 *~
 .DS_Store
 venv
-papylus/config.py
-papylus/setting.py
+*config.py
+*setting.py
