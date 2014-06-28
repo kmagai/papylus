@@ -8,9 +8,6 @@ var RootCtrl = function ($scope, $timeout, AuthService, $cookies, User) {
       id: $cookies.userId
     }, function(user) {
       $scope.user = user;
-      $timeout(function() {
-        $scope.initDone = true
-      })
     }
     )
   } else {
@@ -35,75 +32,84 @@ var LandingCtrl = function ($scope, AuthService) {
 
 var UserCtrl = function ($scope, $modal, $log, $location, $cookies, $routeParams, AuthService, List, User) {
 
-  if ($scope.user.associates_id == 'papylus-22') {
-    $scope.user.associates_id = '';
-  }
-  $scope.user.edit = false;
+  User.get({
+    id: $cookies.userId
+  }, function(user) {
+    $scope.user = user;
 
-  $scope.editUser = function() {
-    $scope.user.edit = true;
-  }
-
-  $scope.editDone = function() {
+    if ($scope.user.associates_id == 'papylus-22') {
+      $scope.user.associates_id = '';
+    }
     $scope.user.edit = false;
 
-    if ($scope.user.associates_id == ''){
-      $scope.user.associates_id = 'papylus-22'
+    $scope.editUser = function() {
+      $scope.user.edit = true;
     }
 
-    User.update({
-      id: $routeParams.userId
-    }, {
-      name: $scope.user.name,
-      description: $scope.user.description,
-      associates_id: $scope.user.associates_id
-    }, function(user) {
-      $scope.user = user;
-      if (user.associates_id == 'papylus-22') {
-        $scope.user.associates_id = '';
-      }
+    $scope.editDone = function() {
       $scope.user.edit = false;
-    }
-    )
-  }
 
-  $scope.changeIcon = function() {
-    //////fix it later
-    alert('hoge!')
-  }
+      if ($scope.user.associates_id == ''){
+        $scope.user.associates_id = 'papylus-22'
+      }
 
-  $scope.delete_list = function(index) {
-    var isConfirmed = confirm('このリストを削除しますか？');
-    if (isConfirmed) {
-      // index is reversed
-      var index = $scope.user.lists.length - index -1
-      var targetlist = $scope.user.lists[index];
-  
-      List.delete({ id: targetlist.id },
-        function(list) {
-          $scope.user.lists.splice(index, 1);
+      User.update({
+        id: $routeParams.userId
+      }, {
+        name: $scope.user.name,
+        description: $scope.user.description,
+        associates_id: $scope.user.associates_id
+      }, function(user) {
+        $scope.user = user;
+        if (user.associates_id == 'papylus-22') {
+          $scope.user.associates_id = '';
         }
+        $scope.user.edit = false;
+      }
       )
     }
-  }
-  
-  // Modal
-  $scope.modal = function() {
-    var modalInstance = $modal.open({
-      templateUrl: 'newListModal.html',
-      controller: newListModalCtrl,
-      resolve: {
-        lists: function() {
-          return $scope.user.lists
-        }
+
+    $scope.changeIcon = function() {
+      //////fix it later
+      alert('hoge!')
+    }
+
+    $scope.delete_list = function(index) {
+      var isConfirmed = confirm('このリストを削除しますか？');
+      if (isConfirmed) {
+        // index is reversed
+        var index = $scope.user.lists.length - index -1
+        var targetlist = $scope.user.lists[index];
+    
+        List.delete({ id: targetlist.id },
+          function(list) {
+            $scope.user.lists.splice(index, 1);
+          }
+        )
       }
-    })
-    modalInstance.result.then(function (list) {
-      $scope.user.lists.push(list);
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
-  }
+    }
+    
+    // Modal
+    $scope.modal = function() {
+      var modalInstance = $modal.open({
+        templateUrl: 'newListModal.html',
+        controller: newListModalCtrl,
+        resolve: {
+          lists: function() {
+            return $scope.user.lists
+          }
+        }
+      })
+      modalInstance.result.then(function (list) {
+        $scope.user.lists.push(list);
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
+    }
+
+    }
+    )
+
 };
 
 var newListModalCtrl = function ($scope, $modalInstance, $routeParams, List, lists) {

@@ -34,9 +34,12 @@ app.factory('AuthService', function($cookieStore, $location){
   return {
     login: function() {
       window.location.href = 'login/tw';
+      // set login cookie like, ('token': 'hogehoge') in controller.py
+      // set login cookie like, ('userId': 'kmagai_') in controller.py
     },
     logout: function() {
       $cookieStore.remove('token');
+      $cookieStore.remove('userId');
       $location.path('/');
     }
   }
