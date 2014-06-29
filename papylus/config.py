@@ -6,7 +6,6 @@ SECRET_KEY = 'jsadasdsasafsjafsajkfsfjksz'
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 os.environ["DATABASE_URI"] = 'sqlite:///' + os.path.join(basedir, 'app.db')
-
 os.environ["SQLALCHEMY_MIGRATE_REPO"] = os.path.join(basedir, 'db_repository')
 
 from authomatic.providers import oauth2, oauth1
