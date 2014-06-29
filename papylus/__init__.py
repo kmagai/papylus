@@ -12,4 +12,3 @@ app.url_map.strict_slashes = False
 import papylus.core
 import papylus.models
 import papylus.controllers
-
