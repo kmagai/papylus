@@ -3,7 +3,7 @@ from migrate.versioning import api
 from papylus.core import db
 import os.path
 
-SQLALCHEMY_DATABASE_URI = os.environ['SQLALCHEMY_DATABASE_URI']
+SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URI']
 SQLALCHEMY_MIGRATE_REPO = os.environ['SQLALCHEMY_MIGRATE_REPO']
 
 db.create_all()
