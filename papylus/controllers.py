@@ -80,7 +80,7 @@ def login(provider_name):
             # We need to update the user to get more info.
             result.user.update()
 
-            if result.provider.name == 'twitter':
+            if result.provider.name == 'tw':
 
                 username = result.user.username
                 credentials = result.user.credentials
