@@ -33,7 +33,7 @@ app.factory('Item', [
 app.factory('AuthService', function($cookieStore, $location){
   return {
     login: function() {
-      window.location.href = 'login/tw';
+      window.location.href = 'login/twitter';
       // set login cookie like, ('token': 'hogehoge') in controller.py
       // set login cookie like, ('userId': 'kmagai_') in controller.py
     },

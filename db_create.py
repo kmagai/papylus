@@ -6,6 +6,7 @@ import os.path
 SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URI']
 SQLALCHEMY_MIGRATE_REPO = os.environ['SQLALCHEMY_MIGRATE_REPO']
 
+db.drop_all()
 db.create_all()
 print 'DB Successfully Created!'
 if not os.path.exists(SQLALCHEMY_MIGRATE_REPO):
