@@ -84,7 +84,8 @@ def login(provider_name):
 
                 username = result.user.username
                 credentials = result.user.credentials
-                user = User.query.filter_by(tw_oauth_token=hashlib.sha1(credentials.token).hexdigest()).first()
+                hashed_oauth_token = hashlib.sha1(credentials.token).hexdigest()
+                user = User.query.filter_by(tw_oauth_token=hashed_oauth_token).first()
 
                 if user == None:
 
@@ -94,13 +95,14 @@ def login(provider_name):
                     user = User()
                     user.tw_id = result.user.id
                     user.name = result.user.name
-                    user.tw_oauth_token = hashlib.sha1(credentials.token).hexdigest()
+                    user.tw_oauth_token = hashed_oauth_token
                     user.icon = icon_img
                     db.session.add(user)
                     db.session.commit()
 
-                    user = User.query.filter_by(tw_id=result.user.id).first()
+                    user = User.query.filter_by(tw_oauth_token=hashed_oauth_token).first()
 
+            '''
             ### not being tested
             if result.provider.name == 'fb':
                 credentials = result.user.credentials
@@ -113,12 +115,13 @@ def login(provider_name):
                     user.fb_oauth_token = credentials.token
                     db.session.add(user)
                     db.session.commit()
+            '''
 
             userpath = os.path.join('user', str(user.id))
 
             next_url = request.args.get('next') or url_for('index', path=userpath)
             redirect_to_next = make_response(redirect(next_url))
-            redirect_to_next.set_cookie('token', hashlib.sha1(credentials.token).hexdigest())
+            redirect_to_next.set_cookie('token', hashed_oauth_token)
             redirect_to_next.set_cookie('userId', str(user.id))
             return redirect_to_next
 
