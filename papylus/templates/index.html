@@ -21,28 +21,12 @@
   <script src="/static/js/directives.js"></script>
   <script src="/static/js/services.js"></script>
   <script src="/static/js/controllers.js"></script>
-  <script src="/static/js/constant.js"></script>
   <script src="/static/lib/jquery/jquery.js"></script>
   <script src="/static/lib/angular/ui-bootstrap-tpls.min.js"></script>
    
   <base href="/"></base>
 </head>
 <body ng-controller="RootCtrl" check-user>
-  <nav class="navbar navbar-static-top" role='navigation'>
-    <div class="container-fluid">
-      <div class="container page">
-        <div class="navbar-header">
-          <div class='col-md-12'>
-            <a class='navbar-brand' ng-href="/user/{{user.id}}"><span class='glyphicon glyphicon-file'></span> papyl.us</a>
-          </div>
-        </div>
-        <div class='nav navbar-nav navbar-right'>
-          <a href='' ng-if='user.id' ng-click='logout()'>logout</a>
-          <a href='' ng-if='!user.id' ng-click='login()'>login</a>
-        </div>
-  	  </div>
-    </div>
-  </nav>
 	<div ng-view>
 	</div>
 

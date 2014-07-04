@@ -1,13 +1,32 @@
 <link rel="stylesheet" href="/static/css/main.css">
+<nav class="navbar navbar-static-top" role='navigation'>
+  <div class="container-fluid">
+    <div class="container page">
+      <div class="navbar-header">
+        <div class='col-md-12'>
+          <a class='navbar-brand' ng-href="/user/{{user.id}}"><span class='glyphicon glyphicon-file'></span> papyl.us</a>
+        </div>
+      </div>
+      <div class='navbar-collapse collapse'>
+        <ul class='nav navbar-nav navbar-right'>
+          <li>
+            <a href='' ng-if='user.id' ng-click='logout()'>logout</a>
+            <a href='' ng-if='!user.id' ng-click='login()'>login</a>
+          </li>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
 <div class="container page">
 	<div id="content" class="container main">
     <div class='row'>
-      <div class='col-md-3'>
-        <section ng-show='!user.edit' class='profile'>
-          <div class="pic">
+      <div class='col-md-12'>
+        <section ng-show='!user.edit' class='profile col-centered'>
+          <div class='pic col-md-4'>
             <img src="{{user.icon}}"  />
           </div>
-          <div class="detail">
+          <div class='col-md-7 col-md-offset-1'>
             <h2>{{user.name}}</h2>
             <p style='white-space: pre;'>{{user.description}}</p>
             <small ng-hide="user.associates_id=='papylus-22' || user.associates_id==''">アソシエイトID: {{user.associates_id}}</small>
@@ -15,13 +34,12 @@
           </div>
         </section>
         <section ng-show='user.edit' class='profile'>
-          <div class="pic">
-            <a href='' ng-click='changeIcon()'><img src="{{user.icon}}"/></a>
+          <div class='pic col-md-4'>
+            <img src="{{user.icon}}"/>
           </div>
-            </br>
-          <div class="detail">
+          <div class='col-md-7 col-md-offset-1'>
             <form>
-              <input class="form-control" type='text' ng-model='user.name' autofocus>
+              <input class="form-control" type='text' ng-model='user.name' placeholder='ユーザーネーム' autofocus>
               <textarea class="form-control" ng-model='user.description'  placeholder='簡単なプロフィールを入力しましょう'></textarea>
               </br>
               <label for='associates'>AmazonアソシエイトID</label>
@@ -31,61 +49,22 @@
           </div>
         </section>
       </div>
-      <div class='col-md-8 col-md-offset-1'>
-        <div ng-hide='user.lists.length'>
-            <button class="btn btn-default btn-lg" ng-click="modal()">
-            最初のリストを作成する
-            </button>
+      <div class='col-md-12' ng-class="{'lists': user.lists.length > 0, 'no_list': user.lists.length == 0}">
+        <div ng-repeat="list in user.lists | orderBy: '-id' ">
+          <div class='col-md-12' id='list_content' ng-class="{'first_list': $index == 0}">
+            <h3 style='display: inline;'><a ng-href="/list/{{list.user_id}}/{{list.id}}">{{ list.title }}</a></h3> <a ng-href='/edit/{{list.user_id}}/{{list.id}}'><span class='glyphicon glyphicon-wrench'></span></a> <a ng-href='' ng-click='delete_list($index)'><span class='glyphicon glyphicon-trash'></span></a>
+           <hr>
+          </div>
         </div>
-        <div ng-show='user.lists.length'>
-          <div class='col-md-12 '>
-            <h2>あなたのリスト</h2>
-          </div>
-          <div ng-repeat="list in user.lists | orderBy: '-id' ">
-            <div class='col-md-12 '>
-              <h3 style='display: inline;'><a ng-href="/list/{{list.user_id}}/{{list.id}}">{{ list.title }}</a></h3> <a ng-href='/edit/{{list.user_id}}/{{list.id}}'><span class='glyphicon glyphicon-wrench'></span></a> <a ng-href='' ng-click='delete_list($index)'><span class='glyphicon glyphicon-trash'></span></a>
-              <p style='white-space: pre;'>{{ list.body }}<p>
-              <hr>
-            </div>
-          </div>
-          <!-- Trigger Modal -->
-          <div class='col-md-12'>
-            <button class="btn btn-default" ng-click="modal()">
-              リストを作成
-            </button>
-          </div>
+        <div class='col-md-12'>
+          <form class='form-group input-group' ng-submit='add_list()'>
+            <input id='title' class="form-control" name='title' type='text' placeholder='新しくつくるリスト名を入れてください' ng-model='list.title' required>
+            <span class='input-group-btn'>
+              <button type='button' class='btn btn-default'>作成</button>
+            </spanv>
+          </form>
         </div>
       </div>
     </div>
-    
-    
-    <!-- Modal Content -->
-    <script type='text/ng-template' id='newListModal.html'>
-      <form role='form' name='newListForm' action='' ng-submit='addList()' novalidate>
-        <div class="modal-header">
-          <h4><span class='glyphicon glyphicon-th-list'></span> 新しくリストを作成する</h4>
-        </div>
-        <div class="modal-body">
-            <div class='form-group' ng-class="{'has-error': newListForm.title.$invalid && !newListForm.title.$pristine, 'has-success': !newListForm.title.$invalid }">
-              <label for='title'>リストのタイトル</label>
-              <input id='title' class="form-control" name='title' type='text' ng-model='list.title' required>
-              <p ng-show="newListForm.title.$invalid && !newListForm.title.$pristine" class="help-block">タイトルは必須項目です</p>
-            </div>
-            <div class='form-group' ng-class="{'has-success': !newListForm.body.$invalid && !newListForm.title.$pristine }">
-              <label for='body'>リストの概要（任意）</label>
-              <textarea id='body' class="form-control" name='body' type='text' ng-model='list.body'></textarea>
-            </div>
-              <button type='button' class="btn btn-default" ng-click='cancel()'>キャンセル</button>
-              <button type='submit' class="btn btn-default" ng-disabled='newListForm.$invalid'>リストを作成</button>
-        </div>
-        </form>
-    </script>
 	</div>
 </div>
-<footer class="footer">
-  <div class="footer-logo">
-    <span class='glyphicon glyphicon-file'></span>
-  </div>
-  <div class="footer-links">
-  </div>
-</footer>

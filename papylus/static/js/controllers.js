@@ -23,13 +23,6 @@ var RootCtrl = function ($scope, $timeout, AuthService, $cookies, User) {
   }
 }
 
-var LandingCtrl = function ($scope, AuthService) {
-  $scope.login = function() {
-    AuthService.login()
-  }
-}
-
-
 var UserCtrl = function ($scope, $modal, $log, $location, $cookies, $routeParams, AuthService, List, User) {
 
   User.get({
@@ -69,11 +62,6 @@ var UserCtrl = function ($scope, $modal, $log, $location, $cookies, $routeParams
       )
     }
 
-    $scope.changeIcon = function() {
-      //////fix it later
-      alert('hoge!')
-    }
-
     $scope.delete_list = function(index) {
       var isConfirmed = confirm('このリストを削除しますか？');
       if (isConfirmed) {
@@ -89,54 +77,41 @@ var UserCtrl = function ($scope, $modal, $log, $location, $cookies, $routeParams
       }
     }
     
-    // Modal
-    $scope.modal = function() {
-      var modalInstance = $modal.open({
-        templateUrl: 'newListModal.html',
-        controller: newListModalCtrl,
-        resolve: {
-          lists: function() {
-            return $scope.user.lists
-          }
-        }
-      })
-      modalInstance.result.then(function (list) {
+    $scope.add_list = function() {
+      List.save({}, {
+        title: $scope.list.title,
+        user_id: $routeParams.userId
+      }, function(list) {
         $scope.user.lists.push(list);
-      }, function () {
-        $log.info('Modal dismissed at: ' + new Date());
-      });
+        $scope.list.title = '';
+      }
+      )
     }
 
-    }
-    )
+  }
+  )
 
 };
 
-var newListModalCtrl = function ($scope, $modalInstance, $routeParams, List, lists) {
-  $scope.list = {'title':'', 'body':''}
-
-  $scope.addList = function() {
-    List.save({}, {
-      title: $scope.list.title,
-      body: $scope.list.body,
-      user_id: $routeParams.userId
-    }, function(list) {
-      $modalInstance.close(list);
-    }
-    )
-  }
-
-  $scope.cancel = function () {
-    $modalInstance.dismiss('cancel');
-  };
-
-}
 
 var ListEditCtrl = function ($scope, $routeParams, $modal, $location, $log, List, Item) {
   List.get({
     id: $routeParams.listId
   }, function(list) {
     $scope.list = list;
+
+    $scope.delete_item = function(index) {
+      var isConfirmed = confirm('このリストを削除しますか？');
+      if (isConfirmed) {
+        var targetitem = $scope.list.items[index];
+        Item.delete({ id: targetitem.id },
+          function(item) {
+            $scope.list.items.splice(index, 1);
+          }
+        )
+      }
+    }
+    
     $scope.searchItemModal = function() {
       var modalInstance = $modal.open({
         templateUrl: 'searchItemModal.html',
@@ -160,7 +135,6 @@ var ListEditCtrl = function ($scope, $routeParams, $modal, $location, $log, List
         id: $routeParams.listId
       }, {
         title: $scope.list.title,
-        body: $scope.list.body,
         items: $scope.list.items
       }, function(list) {
         $location.path("/user/" + $scope.list.user_id);
@@ -194,6 +168,8 @@ var searchItemModalCtrl = function($scope, $modalInstance, $http, list, Item) {
       name: item[0].name,
       url: item[0].url,
       img: item[0].img,
+      publisher: item[0].publisher,
+      pub_date: item[0].pub_date,
       list_id: list.id
     }, function(item) {
       $modalInstance.close(item);
@@ -237,7 +213,6 @@ var ListCtrl = function ($scope, $routeParams, $modal, $location, $log, List, It
         id: $routeParams.listId
       }, {
         title: $scope.list.title,
-        body: $scope.list.body
       }, function(list) {
         $location.path( "/user/" + $scope.list.user_id );
       }

@@ -1,35 +1,61 @@
 <link rel="stylesheet" href="/static/css/main.css">
+<link rel="stylesheet" href="/static/css/list.css">
 <div class="container page">
+<div class='head'>
+  <h1><a ng-show='!!user.id' ng-href="/user/{{user.id}}"><span class='glyphicon glyphicon-file'></span></a></h1>
+  <h1><a ng-show='!user.id' ng-href="/"><span class='glyphicon glyphicon-file'></span></a></h1>
+</div>
 	<div id="content" class="container main">
     <div class='row'>
-      <div class='col-md-12'>
-          <h1>{{list.title}}</h1>
-          <p style='white-space: pre;'>{{list.body}}</p>
+      <div class='col-md-12 text-center' id='list_content'>
+        <div class='col-md-12'>
+          <h1>
+            <a ng-href="/user/{{user.id}}"></a> {{list.title}}
+          </h1>
+        </div>
+        <div class='col-md-12'>
+            <a href='/user/{{list.user.id}}'>
+              <img id='profile_pic' width='30px' alt='profile_pic' src="{{list.user.icon}}">
+            </a>
+            created by 
+            <a href='/user/{{list.user.id}}'>
+              {{list.user.name}}
+            </a>
+        </div>
+        <div class='col-md-12' id='list_body'>
+          <p style='white-space: pre;'></p>
+        </div>
       </div>
-      <div class='col-md-12'>
-        <div ng-repeat="item in list.items">
-          <div>
-            <div class='col-md-12 animated fadeInRight'>
-              <div class='col-md-4'>
-                <a ng-href='{{item.url}}?tag={{list.user.associates_id}}' target='_blank'><p>{{item.name}}</p></a>
-                <a ng-href='{{item.url}}?tag={{list.user.associates_id}}' target='_blank' ng-show='{{item.img.length}}'><img src='{{item.img}}'></a>
-                <a ng-href='{{item.url}}?tag={{user.associates_id}}' target='_blank' ng-hide='{{item.img.length}}'>No Image Found</a>
-              </div>
-              <div class='col-md-4'>
-                <p ng-show='item.body.length'>コメント</p>
-                <p style='white-space: pre;'>{{item.body}}</p>
-              </div>
+      <div class='col-md-12' id='items'>
+        <div ng-show="list.items.length" ng-repeat="item in list.items">
+          <div class='col-md-12 animated fadeInRight' id='item'>
+            <div class='col-md-3'>
+              <a ng-href='{{item.url}}?tag={{list.user.associates_id}}' target='_blank' ng-show='{{item.img.length}}'><img src='{{item.img}}'></a>
+              <a ng-href='{{item.url}}?tag={{user.associates_id}}' target='_blank' ng-hide='{{item.img.length}}'>No Image Found</a>
             </div>
+            <div class='col-md-9'>
+              <p>
+                <a ng-href='{{item.url}}?tag={{list.user.associates_id}}' target='_blank'>
+                  {{item.name}}
+                </a>
+              </p>
+              <p ng-show='!item.publisher && item.pub_date'>({{item.pub_date}})</p>
+              <p ng-show='item.publisher && !item.pub_date'>{{item.publisher}}</p>
+              <p ng-show='item.publisher && item.pub_date'>{{item.publisher}} ({{item.pub_date}})</p>
+              <br>
+              <p id='item_body'>{{item.body}}</p>
+            </div>
+          </div>
+          <div ng-hide='$index==list.items.length-1' class='col-md-12'>
+            <hr>
+          </div>
+        </div>
+        <div ng-hide="list.items.length">
+          <div class='col-md-12 animated fadeInRight text-center' id='item'>
+            まだアイテムがありません
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-<footer class="footer">
-  <div class="footer-logo">
-    <span class='glyphicon glyphicon-file'></span>
-  </div>
-  <div class="footer-links">
-  </div>
-</footer>

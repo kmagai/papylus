@@ -13,11 +13,12 @@ from papylus.models import List, Item, User, db
 from config import CONFIG
 from functools import wraps
 import json
+import hashlib
 
 api_manager.create_api(app.config['API_MODELS']['user'], methods=['GET', 'PUT'], results_per_page=None)
 api_manager.create_api(app.config['API_MODELS']['list'], methods=['GET', 'POST', 'DELETE', 'PUT'], results_per_page=None)
-api_manager.create_api(app.config['API_MODELS']['item'], methods=['GET', 'POST', 'DELETE', 'PUT'], results_per_page=None)
 
+api_manager.create_api(app.config['API_MODELS']['item'], methods=['GET', 'POST', 'DELETE', 'PUT'], results_per_page=None)
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
@@ -50,7 +51,8 @@ def search_item():
 
     items = []
     for i in products:
-        items.append({'name': i.title, 'url': i.offer_url, 'img': i.medium_image_url})
+        pub_date = i.publication_date.strftime(u'%Y-%m-%d') if i.publication_date != None else ''
+        items.append({'name': i.title, 'url': i.offer_url, 'img': i.medium_image_url, 'publisher': i.publisher, 'pub_date': pub_date})
     return json.dumps(items)
 
 '''
@@ -82,21 +84,22 @@ def login(provider_name):
 
                 username = result.user.username
                 credentials = result.user.credentials
-                user = User.query.filter_by(tw_oauth_token=credentials.token).first()
+                user = User.query.filter_by(tw_oauth_token=hashlib.sha1(credentials.token).hexdigest()).first()
 
                 if user == None:
+
                     url = 'https://api.twitter.com/1.1/users/show/' + username + '.json'
                     response = result.provider.access(url)
                     icon_img = response.data['profile_image_url_https'].replace('normal', 'bigger')
                     user = User()
                     user.tw_id = result.user.id
                     user.name = result.user.name
-                    user.tw_oauth_token = credentials.token
-                    user.tw_oauth_secret = credentials.token_secret
+                    user.tw_oauth_token = hashlib.sha1(credentials.token).hexdigest()
                     user.icon = icon_img
                     db.session.add(user)
                     db.session.commit()
-                    user = User.query.filter_by(tw_oauth_token=credentials.token).first()
+
+                    user = User.query.filter_by(tw_id=result.user.id).first()
 
             ### not being tested
             if result.provider.name == 'fb':
@@ -108,7 +111,6 @@ def login(provider_name):
                     user.name = result.user.name
                     user.description = result.user.description
                     user.fb_oauth_token = credentials.token
-                    user.fb_oauth_secret = credentials.token_secret
                     db.session.add(user)
                     db.session.commit()
 
@@ -116,7 +118,7 @@ def login(provider_name):
 
             next_url = request.args.get('next') or url_for('index', path=userpath)
             redirect_to_next = make_response(redirect(next_url))
-            redirect_to_next.set_cookie('token', credentials.token)
+            redirect_to_next.set_cookie('token', hashlib.sha1(credentials.token).hexdigest())
             redirect_to_next.set_cookie('userId', str(user.id))
             return redirect_to_next
 

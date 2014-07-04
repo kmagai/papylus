@@ -5,7 +5,6 @@ var app = angular.module('Papylus', ['ngRoute', 'ngResource', 'ui.bootstrap', 'n
   $routeProvider
     .when('/', {
       templateUrl: '/static/partials/landing.html',
-      controller: 'LandingCtrl',
       access: {
         level: 'public'
       }

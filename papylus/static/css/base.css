@@ -6,11 +6,31 @@ a {
   color: #004B6B;
 }
 
+ul.navbar-right a:hover {
+  background-color: rgba(52, 73, 94,1.0);
+}
+
+.col-centered {
+  float: none;
+  margin: 0 auto;
+}
+
+.row {
+  padding-top: 30px;
+  padding-bottom: 50px;
+  padding-left: 140px;
+  padding-right: 140px;
+}
+
 .navbar-header {
 }
 
 .navbar-brand {
   background-color: rgba(52, 73, 94,1.0);
+}
+
+.container {
+  width: 1000px;
 }
 
 .container-fluid {
@@ -36,7 +56,7 @@ hr {
   padding: 2em 1.618em;
   width: 100%;
   height: 150px;
-  margin-top: 130px;
+  margin-top: 200px;
 }
 
 .footer .footer-logo {
@@ -57,4 +77,3 @@ hr {
   display: block;
   margin-right: 2.35765%;
 }
-

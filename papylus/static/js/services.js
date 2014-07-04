@@ -22,8 +22,8 @@ app.factory('List', [
 
 app.factory('Item', [
   '$resource', function($resource) {
-    return $resource('/api/item/:item_id', {}, {
-      update: { method: 'PUT', params: { item_id: '@item_id' } 
+    return $resource('/api/item/:id', {}, {
+      update: { method: 'PUT', params: { id: '@id' }
      }
     }
   )

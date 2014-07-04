@@ -34,14 +34,12 @@ class List(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     title = db.Column(db.String(80))
-    body = db.Column(db.Text)
     pub_date = db.Column(db.DateTime)
     items = db.relationship('Item', backref='list', lazy='dynamic')
     
-    def __init__(self, user_id, title, body, pub_date=None):
+    def __init__(self, user_id, title, pub_date=None):
         self.user_id = user_id
         self.title = title
-        self.body = body
         if pub_date is None:
             pub_date = datetime.utcnow()
         self.pub_date = pub_date
@@ -51,18 +49,22 @@ class List(db.Model):
 
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80))
+    name = db.Column(db.String)
+    publisher = db.Column(db.String)
+    pub_date = db.Column(db.String)
     url = db.Column(db.String)
     img = db.Column(db.String)
     body = db.Column(db.Text)
     list_id = db.Column(db.Integer, db.ForeignKey('list.id'))
     
-    def __init__(self, name, url, img, list_id, body=None):
+    def __init__(self, name, url, img, list_id, pub_date=None, publisher=None, body=None):
         self.name = name
         self.url = url
         self.img = img
-        self.body = body
         self.list_id = list_id
+        self.pub_date = pub_date
+        self.publisher = publisher
+        self.body = body
     
     def __repr__(self):
         return '<Item %r>' % self.name

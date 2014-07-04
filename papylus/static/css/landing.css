@@ -1,5 +1,5 @@
 html{
-  background:url('http://unsplash.s3.amazonaws.com/batch%203/doctype-hi-res.jpg') no-repeat center center fixed;
+  background:url('/static/img/Blurred Backgrounds/manatee.jpg') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -12,9 +12,6 @@ body {
   background: transparent;
 }
 
-.panel {
-  margin-top: 100px;
-  background-color: rgba(255, 255, 255, 0.8);
-  text-align: center;
-  padding: 30px;
+.catch {
+  margin-top: 200px;
 }
