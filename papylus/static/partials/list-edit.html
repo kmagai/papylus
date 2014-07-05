@@ -52,7 +52,7 @@
         <div class='col-md-12'>
           <div class='col-md-3'>
             <!-- Trigger Modal -->
-            <button type='button' class="btn btn-default btn-lg" ng-click='searchItemModal()'>
+            <button type='button' class="btn btn-default btn-lg" ng-click='searchItemModal(); focusInput = true'>
               アイテムを追加
             </button>
           </div>
@@ -78,7 +78,7 @@
       </div>
       <div class="modal-body">
         <form class='form-group'>
-          <input id='query' class="form-control" name='query' type='text' ng-model='data.query' placeholder='Search' required autofocus>
+          <input id='query' class="form-control" name='query' type='text' ng-model='data.query' placeholder='Search' required focusMe=focusInput>
         </div>
       </div>
     </form>

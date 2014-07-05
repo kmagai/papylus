@@ -84,8 +84,7 @@ def login(provider_name):
 
                 username = result.user.username
                 credentials = result.user.credentials
-                hashed_oauth_token = hashlib.sha1(credentials.token).hexdigest()
-                user = User.query.filter_by(tw_oauth_token=hashed_oauth_token).first()
+                user = User.query.filter_by(tw_oauth_token=credentials.token).first()
 
                 if user == None:
 
@@ -95,12 +94,12 @@ def login(provider_name):
                     user = User()
                     user.tw_id = result.user.id
                     user.name = result.user.name
-                    user.tw_oauth_token = hashed_oauth_token
+                    user.tw_oauth_token = credentials.token
                     user.icon = icon_img
                     db.session.add(user)
                     db.session.commit()
 
-                    user = User.query.filter_by(tw_oauth_token=hashed_oauth_token).first()
+                    user = User.query.filter_by(tw_oauth_token=credentials.token).first()
 
             '''
             ### not being tested
@@ -121,16 +120,23 @@ def login(provider_name):
 
             next_url = request.args.get('next') or url_for('index', path=userpath)
             redirect_to_next = make_response(redirect(next_url))
+
+            # make token undecipherable by sha1
+            hashed_oauth_token = hashlib.sha1(credentials.token).hexdigest()
+
             redirect_to_next.set_cookie('token', hashed_oauth_token)
             redirect_to_next.set_cookie('userId', str(user.id))
             return redirect_to_next
 
     return response
 
+@app.route('/get_hashed_oauth', methods=['POST'])
+def get_hashed_oauth():
+    hashed_oauth_token = hashlib.sha1(request.form['oauth_token']).hexdigest()
+    return json.dumps(hashed_oauth_token)
 
 # special file handlers and error handlers
 @app.route('/favicon.ico')
 def favicon():
 	return send_from_directory(os.path.join(app.root_path, 'static'),
 							   'img/favicon.ico')
-
