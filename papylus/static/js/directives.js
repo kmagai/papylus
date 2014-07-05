@@ -2,6 +2,7 @@
 
 /* Directives */
 
+
 app.directive('checkUser', ['$rootScope', '$location', '$cookies', '$http', 'User', function ($root, $location, $cookies, $http, User) {
   return {
     link: function (scope, elem, attrs, ctrl) {
