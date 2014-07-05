@@ -26,8 +26,10 @@ var RootCtrl = function ($scope, $timeout, AuthService, $cookies, User) {
 var UserCtrl = function ($scope, $modal, $log, $location, $cookies, $routeParams, AuthService, List, User) {
 
   User.get({
-    id: $cookies.userId
+    id: $routeParams.userId
   }, function(user) {
+    $scope.visitor = eval($cookies.userId == $routeParams.userId ? false: true);
+    $scope.list = {'title': ''}
     $scope.user = user;
 
     if ($scope.user.associates_id == 'papylus-22') {

@@ -24,6 +24,11 @@
   <script src="/static/js/controllers.js"></script>
   <script src="/static/lib/jquery/jquery.js"></script>
   <script src="/static/lib/angular/ui-bootstrap-tpls.min.js"></script>
+  <script type="text/javascript">
+    if (screen.width <= 699) {
+      document.location = "/static/template/smartphone_index.html";
+    }
+  </script>
    
   <base href="/"></base>
 </head>

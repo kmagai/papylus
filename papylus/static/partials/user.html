@@ -10,8 +10,8 @@
       <div class='navbar-collapse collapse'>
         <ul class='nav navbar-nav navbar-right'>
           <li>
-            <a href='' ng-if='user.id' ng-click='logout()'>logout</a>
-            <a href='' ng-if='!user.id' ng-click='login()'>login</a>
+            <a href='' ng-if='!visitor && user.id' ng-click='logout()'>logout</a>
+            <a href='' ng-if='visitor || !user.id' ng-click='login()'>login</a>
           </li>
         </div>
       </div>
@@ -20,49 +20,78 @@
 </nav>
 <div class="container page">
 	<div id="content" class="container main">
-    <div class='row'>
-      <div class='col-md-12'>
-        <section ng-show='!user.edit' class='profile col-centered'>
-          <div class='pic col-md-4'>
-            <img src="{{user.icon}}"  />
+    <div ng-if='visitor'>
+      <div class='row'>
+        <div class='col-md-12'>
+          <section ng-show='!user.edit' class='profile col-centered'>
+            <div class='pic col-md-4'>
+              <img ng-src="{{user.icon}}"  />
+            </div>
+            <div class='col-md-7 col-md-offset-1'>
+              <h2>{{user.name}}</h2>
+              <p style='white-space: pre;'>{{user.description}}</p>
+            </div>
+          </section>
+        </div>
+        <div class='col-md-12' ng-class="{'lists': user.lists.length > 0, 'no_list': user.lists.length == 0}">
+          <div ng-repeat="list in user.lists | orderBy: '-id' ">
+            <div class='col-md-12' id='list_content' ng-class="{'first_list': $index == 0}">
+              <h3 style='display: inline;'><a ng-href="/list/{{list.user_id}}/{{list.id}}">{{ list.title }}</a></h3>
+             <hr>
+            </div>
           </div>
-          <div class='col-md-7 col-md-offset-1'>
-            <h2>{{user.name}}</h2>
-            <p style='white-space: pre;'>{{user.description}}</p>
-            <small ng-hide="user.associates_id=='papylus-22' || user.associates_id==''">アソシエイトID: {{user.associates_id}}</small>
-            <a href='' class="btn btn-primary btn-block btn-large" ng-show='!user.edit' ng-click="editUser()" ><span class='glyphicon glyphicon-pencil'></span>プロフィールを編集</a>
-          </div>
-        </section>
-        <section ng-show='user.edit' class='profile'>
-          <div class='pic col-md-4'>
-            <img src="{{user.icon}}"/>
-          </div>
-          <div class='col-md-7 col-md-offset-1'>
-            <form>
-              <input class="form-control" type='text' ng-model='user.name' placeholder='ユーザーネーム' autofocus>
-              <textarea class="form-control" ng-model='user.description'  placeholder='簡単なプロフィールを入力しましょう'></textarea>
-              </br>
-              <label for='associates'>AmazonアソシエイトID</label>
-              <input class="form-control" name='associates' type='text' ng-model='user.associates_id'>
-              <a href='' class="btn btn-primary btn-block btn-large" ng-click="editDone()" ><span class='glyphicon glyphicon-pencil'></span>編集を完了</a>
-            </form>
-          </div>
-        </section>
-      </div>
-      <div class='col-md-12' ng-class="{'lists': user.lists.length > 0, 'no_list': user.lists.length == 0}">
-        <div ng-repeat="list in user.lists | orderBy: '-id' ">
-          <div class='col-md-12' id='list_content' ng-class="{'first_list': $index == 0}">
-            <h3 style='display: inline;'><a ng-href="/list/{{list.user_id}}/{{list.id}}">{{ list.title }}</a></h3> <a ng-href='/edit/{{list.user_id}}/{{list.id}}'><span class='glyphicon glyphicon-wrench'></span></a> <a ng-href='' ng-click='delete_list($index)'><span class='glyphicon glyphicon-trash'></span></a>
-           <hr>
+          <div ng-hide='user.lists.length' class='col-md-12'>
+            <p>リストがありません</p>
           </div>
         </div>
+      </div>
+    </div>
+    <div ng-if='!visitor'>
+      <div class='row'>
         <div class='col-md-12'>
-          <form class='form-group input-group' ng-submit='add_list()'>
-            <input id='title' class="form-control" name='title' type='text' placeholder='新しくつくるリスト名を入れてください' ng-model='list.title' required>
-            <span class='input-group-btn'>
-              <button type='submit' class='btn btn-default'>作成</button>
-            </spanv>
-          </form>
+          <section ng-show='!user.edit' class='profile col-centered'>
+            <div class='pic col-md-4'>
+              <img ng-src="{{user.icon}}"  />
+            </div>
+            <div class='col-md-7 col-md-offset-1'>
+              <h2>{{user.name}}</h2>
+              <p style='white-space: pre;'>{{user.description}}</p>
+              <small ng-hide="user.associates_id=='papylus-22' || user.associates_id==''">アソシエイトID: {{user.associates_id}}</small>
+              <a href='' class="btn btn-primary btn-block btn-large" ng-show='!user.edit' ng-click="editUser()" ><span class='glyphicon glyphicon-pencil'></span>プロフィールを編集</a>
+            </div>
+          </section>
+          <section ng-show='user.edit' class='profile'>
+            <div class='pic col-md-4'>
+              <img ng-src="{{user.icon}}"/>
+            </div>
+            <div class='col-md-7 col-md-offset-1'>
+              <form>
+                <input class="form-control" type='text' ng-model='user.name' placeholder='ユーザーネーム' autofocus>
+                <textarea class="form-control" ng-model='user.description'  placeholder='簡単なプロフィールを入力しましょう'></textarea>
+                </br>
+                <label for='associates'>AmazonアソシエイトID</label>
+                <input class="form-control" name='associates' type='text' ng-model='user.associates_id'>
+                <a href='' class="btn btn-primary btn-block btn-large" ng-click="editDone()" ><span class='glyphicon glyphicon-pencil'></span>編集を完了</a>
+              </form>
+            </div>
+          </section>
+        </div>
+        <div class='col-md-12' ng-class="{'lists': user.lists.length > 0, 'no_list': user.lists.length == 0}">
+          <div ng-repeat="list in user.lists | orderBy: '-id' ">
+            <div class='col-md-12' id='list_content' ng-class="{'first_list': $index == 0}">
+              <h3 style='display: inline;'><a ng-href="/list/{{list.user_id}}/{{list.id}}">{{ list.title }}</a></h3> <a ng-href='/edit/{{list.user_id}}/{{list.id}}'><span class='glyphicon glyphicon-wrench'></span></a> <a ng-href='' ng-click='delete_list($index)'><span class='glyphicon glyphicon-trash'></span></a>
+             <hr>
+            </div>
+          </div>
+          <div class='col-md-12'>
+            <form class='form-group input-group' ng-submit='add_list()'>
+              <input id='title' class="form-control" name='title' type='text' placeholder='新しくつくるリスト名を入れてください' ng-model='list.title' required>
+              {{list.title}}
+              <span class='input-group-btn'>
+                <button type='submit' class='btn btn-default'>作成</button>
+              </spanv>
+            </form>
+          </div>
         </div>
       </div>
     </div>

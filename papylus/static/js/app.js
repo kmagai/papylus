@@ -33,7 +33,7 @@ var app = angular.module('Papylus', ['ngRoute', 'ngResource', 'ui.bootstrap', 'n
       templateUrl: 'static/partials/user.html',
       controller: 'UserCtrl',
       access: {
-        level: 'user'
+        level: 'public'
       }
     })
     .otherwise({
