@@ -45,6 +45,7 @@ app.directive('checkUser', ['$rootScope', '$location', '$cookies', '$http', 'Use
   }
 }]);
 
+
 app.directive('focusMe', ['$timeout', function ($timeout) {
   return {
     link: function (scope, elem, attrs) {
