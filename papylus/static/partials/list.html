@@ -1,7 +1,10 @@
+
 <link rel="stylesheet" href="/static/css/main.css">
 <link rel="stylesheet" href="/static/css/list.css">
 <div class="container page">
 <div class='head'>
+  <h1><a ng-show='!!user.id' ng-href="/user/{{user.id}}"><span class='glyphicon glyphicon-file'></span></a></h1>
+  <h1><a ng-show='!user.id' ng-href="/"><span class='glyphicon glyphicon-file'></span></a></h1>
 </div>
 	<div id="content" class="container main">
     <div class='row'>
@@ -24,18 +27,13 @@
           <p style='white-space: pre;'></p>
         </div>
       </div>
-          <div class="ninja_onebutton">
-            <script type="text/javascript">
-            //<![CDATA[
-            (function(d){
-            if(typeof(window.NINJA_CO_JP_ONETAG_BUTTON_c02312130b9f39d22b237e5b12d080df)=='undefined'){
-                document.write("<sc"+"ript type='text\/javascript' src='http:\/\/omt.shinobi.jp\/b\/c02312130b9f39d22b237e5b12d080df'><\/sc"+"ript>");
-            }else{ 
-                window.NINJA_CO_JP_ONETAG_BUTTON_c02312130b9f39d22b237e5b12d080df.ONETAGButton_Load();}
-            })(document);
-            //]]>
-            </script><span class="ninja_onebutton_hidden" style="display:none;"></span><span style="display:none;" class="ninja_onebutton_hidden"></span>
-          </div>
+      <div class='social-button text-center'>
+        <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{list.title}} by {{list.user.name}}" data-lang="ja" data-hashtags="papylus">ツイート</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+        <div class="fb-like" data-href="http://papyl.us/list/{{list.user.id}}/{{list.id}}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+        <a href="http://b.hatena.ne.jp/entry/papyl.us/list/{{list.user.id}}/{{list.id}}" class="hatena-bookmark-button" data-hatena-bookmark-title="{{list.title}}" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+      </div>
+      
       <div class='col-lg-12' id='items'>
         <div ng-show="list.items.length" ng-repeat="item in list.items">
           <div class='col-lg-12 animated fadeInRight' id='item'>
