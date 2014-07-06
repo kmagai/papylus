@@ -1,0 +1,23 @@
+#items {
+  background-color: white;
+  padding: 10px;
+}
+
+#item {
+  padding: 5px;
+  padding-bottom: 30px;
+  padding-top: 30px;
+}
+#item_body {
+  white-space: pre;
+  word-wrap: break-word;
+}
+
+#profile_pic {
+  border-radius: 50%;
+}
+
+
+#list_content {
+  padding-bottom: 20px;
+}

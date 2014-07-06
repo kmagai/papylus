@@ -1,0 +1,22 @@
+html{
+  background:url('/static/img/Blurred Backgrounds/seattle.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  min-height:100%;
+}
+
+body {
+  font-size: 16px;
+  background: transparent;
+  color: #F5F5F5;
+}
+
+.catch {
+  margin-top: 200px;
+}
+
+img {
+  margin-top: 50px;
+}
